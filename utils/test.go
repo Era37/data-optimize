@@ -16,6 +16,22 @@ func arrHas32(arr []byte) bool {
 	return flag
 }
 
+func GenerateWords() {
+	var final []string
+	s, _ := os.ReadFile("./old_words.txt")
+	sSplit := strings.Split(string(s), "\n")
+	for _, word := range sSplit {
+
+		if len(word) > 4 {
+			final = append(final, word)
+			continue
+		}
+		fmt.Println(word)
+	}
+	f, _ := os.Create("./words.txt")
+	f.WriteString(strings.Join(final, "\n"))
+}
+
 func Sort() {
 	var final []string
 	var goodNumbers []uint32
