@@ -11,7 +11,7 @@ import (
 func Encode(input string, dataMap *utils.BidirectionalMap) []byte {
 	inputSplit := strings.Split(input, " ")
 	for _, word := range inputSplit {
-		val, err := (*dataMap).BackwardMap[strings.ToLower(word)]
+		val, err := (*dataMap).BackwardMap[word]
 		if !err {
 			continue
 		}
