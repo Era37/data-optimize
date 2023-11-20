@@ -6,6 +6,13 @@ import (
 	"strings"
 )
 
+func TrimSuffix(s, suffix string) string {
+	if strings.HasSuffix(s, suffix) {
+		s = s[:len(s)-len(suffix)]
+	}
+	return s
+}
+
 type BidirectionalMap struct {
 	ForwardMap  map[uint32]string
 	BackwardMap map[string]uint32
@@ -20,6 +27,7 @@ func LoadDict() BidirectionalMap {
 	Check(err)
 	contentsSplit := strings.Split(string(fileContents), "\n")
 	for _, entry := range contentsSplit {
+		entry = entry[:len(entry)-1]
 		numberWordSplit := strings.Split(entry, ":")
 		numConverted, _ := strconv.Atoi(numberWordSplit[0])
 		converted32 := uint32(numConverted)

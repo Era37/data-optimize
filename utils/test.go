@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-func arrHas32(arr []byte) bool {
+func arrHasInvalid(arr []byte) bool {
 	flag := false
 	for _, el := range arr {
-		if el == 32 {
+		if el < 33 {
 			flag = true
 		}
 	}
@@ -35,8 +35,8 @@ func GenerateWords() {
 func Sort() {
 	var final []string
 	var goodNumbers []uint32
-	for start := 210_000; start < 1_000_000; start++ {
-		if len(ToBinary(uint32(start))) != 3 || arrHas32(BinaryToByteArray(ToBinary(uint32(start)))) {
+	for start := 210_000; start < 6_000_000; start++ {
+		if len(ToBinary(uint32(start))) != 3 || arrHasInvalid(BinaryToByteArray(ToBinary(uint32(start)))) {
 			//fmt.Println(start, BinaryToByteArray(ToBinary(uint32(start))))
 			continue
 		}
@@ -46,7 +46,7 @@ func Sort() {
 	fileSplit := strings.Split(string(file), "\n")
 	fmt.Println(fileSplit)
 	for _, word := range fileSplit {
-		final = append(final, fmt.Sprintf("%d:%s", goodNumbers[0], word))
+		final = append(final, fmt.Sprintf("%d:%s", goodNumbers[0], strings.ToLower(word)))
 		goodNumbers = goodNumbers[1:]
 	}
 	f, _ := os.Create("dict.txt")

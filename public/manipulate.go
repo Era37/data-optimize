@@ -10,13 +10,11 @@ import (
 
 func Encode(input string, dataMap *utils.BidirectionalMap) []byte {
 	inputSplit := strings.Split(input, " ")
-	fmt.Println([]byte(input))
 	for _, word := range inputSplit {
 		val, err := (*dataMap).BackwardMap[strings.ToLower(word)]
 		if !err {
 			continue
 		}
-		fmt.Println(val)
 		byteArray := utils.BinaryToByteArray(utils.ToBinary(val))
 		input = strings.ReplaceAll(input, word, string(byteArray))
 	}
@@ -24,7 +22,7 @@ func Encode(input string, dataMap *utils.BidirectionalMap) []byte {
 }
 
 func Decode(input string, dataMap *utils.BidirectionalMap) []byte {
-	fmt.Println(input)
+	//var letterTracker int
 	inputSplit := strings.Split(input, " ")
 	for _, word := range inputSplit {
 		if len(word) != 3 {
@@ -32,7 +30,13 @@ func Decode(input string, dataMap *utils.BidirectionalMap) []byte {
 		}
 		wordByte := append([]byte{0}, []byte(word)...)
 		integer := binary.BigEndian.Uint32(wordByte)
-		fmt.Println(integer, wordByte)
+		wordConverted, err := (*dataMap).ForwardMap[integer]
+		if !err {
+			continue
+		}
+		fmt.Println(wordConverted, err)
+		input = strings.ReplaceAll(input, word, wordConverted)
+		//letterTracker += len(word)
 	}
-	return []byte{}
+	return []byte(input)
 }
